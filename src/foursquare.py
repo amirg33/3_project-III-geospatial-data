@@ -91,6 +91,18 @@ def foursq_top3_cities_query(query,c_name):
     return pd.DataFrame(list(city_counts.items()), columns=['City', f'{c_name} Count'])
 
 def weighted_count_merged_df():
+    """
+    Aggregates and normalizes the counts of various categories (Starbucks, Schools, Clubs, and Bars)
+    across three major cities. This function queries data for each category, merges them into a single DataFrame,
+    and then normalizes these counts on a scale of 0 to 1. An average percentage score is then calculated 
+    for each city based on these normalized values.
+
+    The function relies on the foursq_top3_cities_query function to fetch the count of each category in the cities.
+    The normalization helps in comparing the prevalence of each category relative to the city with the highest count.
+
+    Returns:
+    - A DataFrame sorted by the average percentage (weighted score) of the normalized counts for each category.
+    """
     df_Starbucks_count = foursq_top3_cities_query(query="Starbucks",c_name="Starbucks")
     df_School_count = foursq_top3_cities_query(query="School",c_name="Schools")
     df_Club_count = foursq_top3_cities_query(query="Club",c_name="Club")

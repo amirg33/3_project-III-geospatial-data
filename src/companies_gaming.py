@@ -99,6 +99,10 @@ def top_3_cities_location():
     return df_filtered_top_3
 
 """
+
+---------------------------------------------------------------------
+CODE NOT NEEDED: BELOW
+---------------------------------------------------------------------
 def get_city_midpoint(df, city_name):
     
     Calculates the midpoint for a specified city based on the two farthest points within a threshold distance.
@@ -139,7 +143,9 @@ def get_city_midpoint(df, city_name):
     midpoint_lon = (point1[1] + point2[1]) / 2
 
     return midpoint_lat, midpoint_lon
-
+---------------------------------------------------------------------
+CODE NOT NEEDED ABOVE
+---------------------------------------------------------------------
 """
 
 def get_city_midpoint_and_radius(df, city_name):
