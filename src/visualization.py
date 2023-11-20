@@ -1,17 +1,16 @@
-from . import gaming_companies
+from . import companies_gaming
+from . import foursquare
+from shapely.geometry import Polygon, Point
 
 import pandas as pd
-from shapely.geometry import Polygon, Point
+
 import folium
 import itertools
 
-df = gaming_companies.top_3_cities_location()
+import matplotlib.pyplot as plt
 
+df = companies_gaming.top_3_cities_location()
 
-import pandas as pd
-from shapely.geometry import Polygon, Point
-import folium
-import itertools
 
 def create_city_map(df, city_name):
     """
@@ -100,3 +99,50 @@ def city_map_london_companies():
     return city_map_london
 
 
+def create_dual_pie_charts(category1, category2, category3, category4):
+    """
+    Creates two separate figures, each with three pie charts, for comparing four different data categories
+    and the average weighted score.
+    Args:
+    - category1: First data category for the first figure.
+    - category2: Second data category for the first figure.
+    - category3: First data category for the second figure.
+    - category4: Second data category for the second figure.
+    """
+    df = foursquare.weighted_count_merged_df()
+
+    # Function for autopct to show count and percentage
+    def make_autopct(values):
+        def my_autopct(pct):
+            total = sum(values)
+            count = int(round(pct*total/100.0))
+            return f'{count} ({pct:.1f}%)'
+        return my_autopct
+
+    # Create two figures, each with three subplots
+    fig1, axes1 = plt.subplots(nrows=1, ncols=2, figsize=(16, 8))
+    fig2, axes2 = plt.subplots(nrows=1, ncols=2, figsize=(16, 8))
+    fig3, axes3 = plt.subplots(nrows=1, ncols=1, figsize=(8, 8))
+
+
+    # First figure
+    axes1[0].pie(df[category1 + ' Count'], labels=df['City'], autopct=make_autopct(df[category1 + ' Count']), startangle=140)
+    axes1[0].set_title(f'Distribution of {category1}')
+
+    axes1[1].pie(df[category2 + ' Count'], labels=df['City'], autopct=make_autopct(df[category2 + ' Count']), startangle=140)
+    axes1[1].set_title(f'Distribution of {category2}')
+
+    # Second figure
+    axes2[0].pie(df[category3 + ' Count'], labels=df['City'], autopct=make_autopct(df[category3 + ' Count']), startangle=140)
+    axes2[0].set_title(f'Distribution of {category3}')
+
+    axes2[1].pie(df[category4 + ' Count'], labels=df['City'], autopct=make_autopct(df[category4 + ' Count']), startangle=140)
+    axes2[1].set_title(f'Distribution of {category4}')
+
+    # Third figure
+
+    axes3.pie(df['Weighted Score'], labels=df['City'], autopct=make_autopct(df['Weighted Score']), startangle=140)
+    axes3.set_title('Distribution of Weighted Score')
+
+    # Show the figures
+    return plt.show()

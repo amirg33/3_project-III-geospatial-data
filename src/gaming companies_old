@@ -98,16 +98,16 @@ def top_3_cities_location():
 
     return df_filtered_top_3
 
-
+"""
 def get_city_midpoint(df, city_name):
-    """
+    
     Calculates the midpoint for a specified city based on the two farthest points within a threshold distance.
     Args:
     - df: DataFrame containing the data.
     - city_name: Name of the city.
     Returns:
     - Tuple containing the latitude and longitude of the midpoint.
-    """
+    
 
     # Filter DataFrame for entries corresponding to the specified city
     city_df = df[df['City'] == city_name]
@@ -140,9 +140,90 @@ def get_city_midpoint(df, city_name):
 
     return midpoint_lat, midpoint_lon
 
+"""
+
+def get_city_midpoint_and_radius(df, city_name):
+    """
+    Calculates the midpoint and radius for a specified city based on the two farthest points within a threshold distance.
+    Args:
+    - df: DataFrame containing the data.
+    - city_name: Name of the city.
+    Returns:
+    - Tuple containing the latitude and longitude of the midpoint and the radius in meters.
+    """
+
+    # Filter DataFrame for entries corresponding to the specified city
+    city_df = df[df['City'] == city_name]
+
+    # Return None if there is no data for the city
+    if city_df.empty:
+        print(f"No data available for {city_name}.")
+        return None, None
+
+    # Initialize initial centroid
+    initial_centroid = Point(city_df['Longitude'].mean(), city_df['Latitude'].mean())
+
+    # Set threshold for maximum allowable distance from initial centroid (for filtering outliers)
+    threshold_distance = 0.05  # Equivalent to approximately 5 km
+
+    # Exclude points beyond the threshold distance from initial centroid
+    filtered_df = city_df[city_df.apply(lambda row: Point(row['Longitude'], row['Latitude']).distance(initial_centroid) < threshold_distance, axis=1)]
+
+    # Identify two points in the filtered dataset that are farthest from each other
+    max_distance = 0
+    point1, point2 = None, None
+    for (lat1, lon1), (lat2, lon2) in itertools.combinations(filtered_df[['Latitude', 'Longitude']].values, 2):
+        distance = geopy.distance.distance((lat1, lon1), (lat2, lon2)).meters
+        if distance > max_distance:
+            max_distance, point1, point2 = distance, (lat1, lon1), (lat2, lon2)
+
+    # Compute midpoint of the two farthest points
+    midpoint_lat = (point1[0] + point2[0]) / 2
+    midpoint_lon = (point1[1] + point2[1]) / 2
+
+    # The radius is half the distance between the two farthest points
+    radius = max_distance / 2
+
+    return (midpoint_lat, midpoint_lon, radius)
+
 df = top_3_cities_location()
 
+def midpoint_coordinates_radius_sf():
+    """
+    Retrieves the latitude and longitude of the midpoint for San Francisco.
+    Returns:
+    - Tuple containing the latitude and longitude of the midpoint.
+    """
+    # Call get_city_midpoint to compute the midpoint for San Francisco
+    sflat, sflon, radius = get_city_midpoint_and_radius(df, "San Francisco")
 
+    # Return the computed midpoint coordinates
+    return sflat, sflon, radius
+
+
+def midpoint_coordinates_radius_ny():
+    """
+    Retrieves the latitude and longitude of the midpoint for New York.
+    Returns:
+    - Tuple containing the latitude and longitude of the midpoint.
+    """
+    # Call get_city_midpoint to compute the midpoint for New York
+    nylat, nylon, radius = get_city_midpoint(df, "New York")
+    
+    # Return the computed midpoint coordinates
+    return nylat, nylon, radius
+
+def midpoint_coordinates_radius_ldn():
+    """
+    Retrieves the latitude and longitude of the midpoint for London.
+    Returns:
+    - Tuple containing the latitude and longitude of the midpoint.
+    """
+    # Call get_city_midpoint to compute the midpoint for London
+    ldnlat, ldnlon, radius = get_city_midpoint(df, "London")
+
+    # Return the computed midpoint coordinates
+    return ldnlat, ldnlon, radius
 
 def midpoint_coordinates_sf():
     """
@@ -191,88 +272,5 @@ def midpoint_coordinates_ldn():
     # Return the computed midpoint coordinates
     return ldnlat, ldnlon
 
-def get_city_midpoint_and_radius(df, city_name):
-    """
-    Calculates the midpoint and radius for a specified city based on the two farthest points within a threshold distance.
-    Args:
-    - df: DataFrame containing the data.
-    - city_name: Name of the city.
-    Returns:
-    - Tuple containing the latitude and longitude of the midpoint and the radius in meters.
-    """
-
-    # Filter DataFrame for entries corresponding to the specified city
-    city_df = df[df['City'] == city_name]
-
-    # Return None if there is no data for the city
-    if city_df.empty:
-        print(f"No data available for {city_name}.")
-        return None, None
-
-    # Initialize initial centroid
-    initial_centroid = Point(city_df['Longitude'].mean(), city_df['Latitude'].mean())
-
-    # Set threshold for maximum allowable distance from initial centroid (for filtering outliers)
-    threshold_distance = 0.05  # Equivalent to approximately 5 km
-
-    # Exclude points beyond the threshold distance from initial centroid
-    filtered_df = city_df[city_df.apply(lambda row: Point(row['Longitude'], row['Latitude']).distance(initial_centroid) < threshold_distance, axis=1)]
-
-    # Identify two points in the filtered dataset that are farthest from each other
-    max_distance = 0
-    point1, point2 = None, None
-    for (lat1, lon1), (lat2, lon2) in itertools.combinations(filtered_df[['Latitude', 'Longitude']].values, 2):
-        distance = geopy.distance.distance((lat1, lon1), (lat2, lon2)).meters
-        if distance > max_distance:
-            max_distance, point1, point2 = distance, (lat1, lon1), (lat2, lon2)
-
-    # Compute midpoint of the two farthest points
-    midpoint_lat = (point1[0] + point2[0]) / 2
-    midpoint_lon = (point1[1] + point2[1]) / 2
-
-    # The radius is half the distance between the two farthest points
-    radius = max_distance / 2
-
-    return (midpoint_lat, midpoint_lon, radius)
-
-def midpoint_coordinates_radius_sf():
-    """
-    Retrieves the latitude and longitude of the midpoint for San Francisco.
-    Returns:
-    - Tuple containing the latitude and longitude of the midpoint.
-    """
-    # Call get_city_midpoint to compute the midpoint for San Francisco
-    sflat, sflon, radius = get_city_midpoint_and_radius(df, "San Francisco")
-
-    # Return the computed midpoint coordinates
-    return sflat, sflon, radius
 
 
-def midpoint_coordinates_radius_ny():
-    """
-    Retrieves the latitude and longitude of the midpoint for New York.
-    Returns:
-    - Tuple containing the latitude and longitude of the midpoint.
-    """
-    # Call get_city_midpoint to compute the midpoint for New York
-    nylat, nylon = get_city_midpoint(df, "New York")
-    
-    # Return the computed midpoint coordinates
-    return nylat, nylon
-
-def midpoint_coordinates_radius_ldn():
-    """
-    Retrieves the latitude and longitude of the midpoint for London.
-    Returns:
-    - Tuple containing the latitude and longitude of the midpoint.
-    """
-    # Call get_city_midpoint to compute the midpoint for London
-    ldnlat, ldnlon = get_city_midpoint(df, "London")
-    
-    # Check if the midpoint is None (no data)
-    if ldnlat is None or ldnlon is None:
-        print("No midpoint data available for London.")
-        return None, None
-
-    # Return the computed midpoint coordinates
-    return ldnlat, ldnlon

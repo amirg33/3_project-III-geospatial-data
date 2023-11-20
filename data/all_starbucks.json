@@ -1,0 +1,53 @@
+[
+    {
+        "fsq_id": "4a1e071af964a520bb7b1fe3",
+        "categories": [
+            {
+                "id": 13035,
+                "name": "Coffee Shop",
+                "short_name": "Coffee Shop",
+                "plural_name": "Coffee Shops",
+                "icon": {
+                    "prefix": "https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_",
+                    "suffix": ".png"
+                }
+            }
+        ],
+        "chains": [
+            {
+                "id": "ab4c54c0-d68a-012e-5619-003048cad9da",
+                "name": "Starbucks"
+            }
+        ],
+        "closed_bucket": "VeryLikelyOpen",
+        "distance": 700,
+        "geocodes": {
+            "drop_off": {
+                "latitude": 37.763021,
+                "longitude": -122.410556
+            },
+            "main": {
+                "latitude": 37.762898,
+                "longitude": -122.410549
+            },
+            "roof": {
+                "latitude": 37.762898,
+                "longitude": -122.410549
+            }
+        },
+        "link": "/v3/places/4a1e071af964a520bb7b1fe3",
+        "location": {
+            "address": "2727 Mariposa St",
+            "census_block": "060750228011013",
+            "country": "US",
+            "cross_street": "at Bryant St",
+            "dma": "San Francisco-Oakland-San Jose",
+            "formatted_address": "2727 Mariposa St (at Bryant St), San Francisco, CA 94110",
+            "locality": "San Francisco",
+            "postcode": "94110",
+            "region": "CA"
+        },
+        "name": "Starbucks",
+        "related_places": {},
+        "timezone": "America/Los_Angeles",
+        "_id": 

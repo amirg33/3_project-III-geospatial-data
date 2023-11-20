@@ -12,9 +12,9 @@
 - Your result will be a city and a neighbourhood/zip code or adress/coordinates.
 
 - Top 3 cities:
-  - 10 Executives (12 %): Find about starbucks companies around you - Weight(20%)
-  - 26 Employees(30 %): Have at least one child (20 %)
-  - Everyone is between 25-40 (100 %): find out pubs and clubs Highest - Weight (60%)
+  - 10 Executives (12 %): Find about starbucks companies around you - Weight(20%) DONE
+  - 26 Employees(30 %): Have at least one child (20 %) DONE
+  - Everyone is between 25-40 (100 %): find out pubs and clubs Highest - Weight (60%) DONE
 - Justification:
   - Measurement of distances ?
   - Weighted assigning criteria DONE
