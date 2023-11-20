@@ -4,7 +4,6 @@ import json
 import pandas as pd
 from pymongo import MongoClient
 from dotenv import load_dotenv
-from dotenv import load_dotenv
 load_dotenv()
 from . import companies_gaming
 

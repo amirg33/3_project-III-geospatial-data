@@ -44,6 +44,10 @@ Our analysis led us to compare three major cities: New York, San Francisco, and 
 
 ![Map_ld](images/map_ld.png)
 
+- New York Gaming Companies:
+
+![Map_ld](images/map_ny.png)
+
 ### Distribution Analysis:
 
 - Distribution of Schools and Starbucks:
@@ -61,7 +65,6 @@ Our analysis led us to compare three major cities: New York, San Francisco, and 
 ### Key Findings:
 - Optimal Choice: New York stood out as the most favorable location, striking a balance across all our evaluation metrics.
 - Unique Strengths: While San Francisco and London showed potential, they had distinct advantages and limitations compared to New York.
-
 
 ## Conclusion
 After thorough data-driven analysis, New York stood out as the best location for our gaming company. Its vibrant culture, abundance of amenities, and proximity to tech hubs make it an ideal choice for fostering growth and catering to our diverse team.
